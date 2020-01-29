@@ -3,6 +3,7 @@ import re
 DIGIT = re.compile(r'\d')
 WHITESPACE = re.compile(r'\s')
 OPERATOR = re.compile(r'[\+\-\*\/]')
+PARENS = re.compile(r'[\(\)]')
 
 class LexicalError(Exception):
     pass
@@ -22,7 +23,7 @@ def lex(s):
                 tokens.append(''.join(acc))
                 acc = []
 
-            if re.match(OPERATOR, c):
+            if re.match(OPERATOR, c) or re.match(PARENS, c):
                 tokens.append(c)
             elif not re.match(WHITESPACE, c):
                 raise LexicalError() # todo say error
